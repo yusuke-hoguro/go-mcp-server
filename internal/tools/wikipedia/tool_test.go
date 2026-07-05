@@ -32,3 +32,14 @@ func TestSearchReturnsPlaceholderResult(t *testing.T) {
 		t.Fatalf("result.URL = %q, want %q", result.URL, wantURL)
 	}
 }
+
+func TestSearchRejectsInvalidLanguageCode(t *testing.T) {
+	_, _, err := Search(context.Background(), nil, SearchInput{
+		Query:    "Model Context Protocol",
+		Language: "example.com/#",
+		Limit:    3,
+	})
+	if err == nil {
+		t.Fatal("Search returned nil error for invalid language code")
+	}
+}

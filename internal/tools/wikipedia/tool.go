@@ -2,12 +2,16 @@ package wikipedia
 
 import (
 	"context"
+	"fmt"
 	"net/url"
+	"regexp"
 
 	"github.com/modelcontextprotocol/go-sdk/mcp"
 )
 
 const ToolName = "wikipedia_search"
+
+var languageCodePattern = regexp.MustCompile(`^[a-z]{2,3}$`)
 
 // MCPクライアントが操作できるツールを登録する
 func Register(server *mcp.Server) {
@@ -27,6 +31,10 @@ func Search(_ context.Context, _ *mcp.CallToolRequest, input SearchInput) (
 	language := input.Language
 	if language == "" {
 		language = "ja"
+	}
+	// Wikipediaの言語コードが不正な場合はエラーを返す
+	if !languageCodePattern.MatchString(language) {
+		return nil, SearchOutput{}, fmt.Errorf("invalid Wikipedia language code: %q", input.Language)
 	}
 
 	return nil, SearchOutput{
