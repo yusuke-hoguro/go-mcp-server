@@ -8,11 +8,12 @@ Go で MCP サーバーを作成するためのリポジトリです。
 
 ## 現在のステップ
 
-Step 1 では、stdio で起動できる最小構成の MCP サーバーを作成します。
+Step 2 では、`wikipedia_search` Tool のスキーマと handler の境界を定義します。
 
 ```sh
 go run ./cmd/blog-mcp-server
 ```
 
-現在のサーバーにはまだ Tool を登録していません。
-次のステップでは、`wikipedia_search` Tool のスキーマと handler の境界を定義します。
+現在の `wikipedia_search` Tool は境界確認用のダミー結果を返します。
+実際の Wikipedia API 呼び出しは、次のステップで `internal/clients/wikipedia`
+として実装します。

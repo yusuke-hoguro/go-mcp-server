@@ -1,6 +1,9 @@
 package mcpserver
 
-import "github.com/modelcontextprotocol/go-sdk/mcp"
+import (
+	"github.com/modelcontextprotocol/go-sdk/mcp"
+	"github.com/yusuke-hoguro/go-mcp-server/internal/tools/wikipedia"
+)
 
 const (
 	serverName    = "blog-mcp-server"
@@ -8,8 +11,12 @@ const (
 )
 
 func New() *mcp.Server {
-	return mcp.NewServer(&mcp.Implementation{
+	server := mcp.NewServer(&mcp.Implementation{
 		Name:    serverName,
 		Version: serverVersion,
 	}, nil)
+
+	wikipedia.Register(server)
+
+	return server
 }
